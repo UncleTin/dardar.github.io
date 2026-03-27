@@ -175,6 +175,15 @@
                 transition: all 1s ease-in-out;
             }
 
+            /* 确保logo尺寸变化时有动画效果 */
+            .logo-container .logo {
+                transition: all 1s ease-in-out;
+            }
+
+            .logo-container .logo-image {
+                transition: all 1s ease-in-out;
+            }
+
             .logo-container.top-left .logo {
                 width: 80px;
                 height: 80px;
@@ -240,6 +249,7 @@
                 transform: translateX(-50%);
                 color: white;
                 font-size: 1rem;
+                text-align: center;
                 opacity: 0.7;
                 animation: bounce 2s infinite;
             }
@@ -353,7 +363,7 @@
 
             .content-placeholder p {
                 margin-top: 10px;
-                font-size: 1.65rem;
+                font-size: 1.25rem;
                 line-height: 1.6;
                 opacity: 0.8;
             }
@@ -365,54 +375,126 @@
             /* 响应式设计 */
             @media (max-width: 768px) {
                 .slogan {
-                    font-size: 2rem;
+                    font-size: 1.8rem;
                     letter-spacing: 1px;
+                    line-height: 1.4;
                 }
                 .logo {
-                    width: 200px;
-                    height: 200px;
+                    width: 180px;
+                    height: 180px;
                 }
                 .logo-image {
-                    max-width: 150px;
-                    max-height: 150px;
+                    max-width: 130px;
+                    max-height: 130px;
                 }
                 .company-name img {
-                    width: 220px;
+                    width: 200px;
                 }
 
                 .logo-container.top-left {
-                    top: 20px;
-                    left: 20px;
+                    top: 0;
+                    left: 0;
+                    padding: 10px 15px;
+                    background: rgba(10, 10, 42, 0.8);
+                    backdrop-filter: blur(10px);
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                    width: 100%;
+                    height: 70px;
+                    display: flex;
+                    align-items: center;
+                    z-index: 21;
                 }
 
                 .logo-container.top-left .logo {
-                    width: 60px;
-                    height: 60px;
+                    width: 50px;
+                    height: 50px;
+                    margin-right: 10px;
+                    transition: all 1s ease-in-out;
                 }
 
                 .logo-container.top-left .logo-image {
-                    max-width: 45px;
-                    max-height: 45px;
+                    max-width: 35px;
+                    max-height: 35px;
                 }
 
                 .company-name.top-left {
-                    top: 20px;
-                    left: 90px;
+                    top: 0;
+                    left: 50px;
+                    transform: translate(0, -22.5%);
+                    padding: 10px 0;
+                    background: transparent;
+                    z-index: 22;
                 }
 
                 .company-name.top-left img {
-                    width: 140px;
+                    width: 120px;
                 }
 
                 .sidebar {
-                    width: 200px;
-                    left: -250px;
+                    width: 100%;
+                    left: 0;
+                    top: 70px;
+                    height: auto;
+                    flex-direction: row;
+                    justify-content: space-around;
+                    padding: 10px;
+                    background: transparent;
+                    backdrop-filter: none;
+                    border-right: none;
+                    border-bottom: none;
+                    z-index: 20;
+                    transition: all 0.8s ease-in-out;
+                }
+
+                .sidebar.visible {
+                    background: rgba(10, 10, 42, 0.8);
+                    backdrop-filter: blur(10px);
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                }
+
+                .menu-item {
+                    font-size: 0.8rem;
+                    padding: 8px 12px;
+                    margin: 0 5px;
+                    border-left: none;
+                    border-bottom: 2px solid transparent;
+                }
+
+                .menu-item:hover {
+                    border-left: none;
+                    border-bottom: 2px solid #4a9eff;
                 }
 
                 .content-area {
-                    left: 220px;
-                    right: 20px;
-                    padding: 30px 20px;
+                    left: 0;
+                    right: 0;
+                    padding: 20px;
+                    margin-top: 100px;
+                }
+
+                .content-section {
+                    height: auto;
+                    min-height: 100vh;
+                    padding: 20px 0;
+                }
+
+                .content-placeholder {
+                    padding: 25px;
+                }
+
+                .content-placeholder h2 {
+                    font-size: 1.8rem;
+                    margin-bottom: 15px;
+                }
+
+                .content-placeholder p {
+                    font-size: 1rem;
+                    line-height: 1.5;
+                }
+
+                .scroll-indicator {
+                    font-size: 0.9rem;
+                    bottom: 20px;
                 }
             }
         </style>
@@ -449,7 +531,7 @@
             </div>
 
             <div class="scroll-indicator">
-                向下滑动查看更多 Slidedown to view more
+                向下滑动查看更多<br />Slidedown to view more
             </div>
         </div>
 
@@ -743,6 +825,9 @@
                 // 第二阶段：滚动超过600px时进入新布局
                 else if (scrollY > secondStageScroll) {
                     slogan.classList.add("hidden");
+                    logoContainer.classList.add("top-left");
+                    companyName.classList.add("top-left");
+
                     logoContainer.classList.add("top-left");
                     companyName.classList.add("top-left");
                     sidebar.classList.add("visible");
