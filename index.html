@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dardar Official Website</title>
+        <link rel="icon" href="resources/logo black.png" />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: "Arial", sans-serif;
+                min-height: 100vh;
+                height: 100%;
+                background: linear-gradient(
+                    180deg,
+                    #0a0a2a 0%,
+                    #1a1a4a 25%,
+                    #2a2a6a 50%,
+                    #3a3a8a 75%,
+                    #4a4aaa 100%
+                );
+                background-attachment: fixed;
+                overflow-x: hidden;
+                position: relative;
+            }
+
+            #stars {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 200vh;
+                pointer-events: none;
+                z-index: 1;
+                transition: transform 0.1s linear;
+            }
+
+            .star {
+                position: absolute;
+                background: white;
+                border-radius: 50%;
+                animation: twinkle 3s infinite;
+            }
+
+            @keyframes twinkle {
+                0%,
+                100% {
+                    opacity: 0.3;
+                }
+                50% {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes shooting-star {
+                0% {
+                    transform: translateX(-100px) translateY(-100px);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateX(100vw) translateY(100vh);
+                    opacity: 0;
+                }
+            }
+
+            .shooting-star {
+                position: absolute;
+                width: 2px;
+                height: 2px;
+                background: linear-gradient(
+                    45deg,
+                    transparent,
+                    white,
+                    transparent
+                );
+                animation: shooting-star 2s linear infinite;
+            }
+
+            .container {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+            }
+
+            .slogan {
+                font-size: 3rem;
+                font-family:
+                    "Times New Roman", "Palatino Linotype", "Book Antiqua",
+                    "Georgia", serif;
+                font-weight: normal;
+                font-style: italic;
+                color: white;
+                text-align: center;
+                text-shadow:
+                    0 0 20px rgba(255, 255, 255, 0.8),
+                    0 0 40px rgba(100, 150, 255, 0.6);
+                letter-spacing: 2px;
+                transition: all 1s ease-in-out;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 10;
+            }
+
+            .slogan.hidden {
+                transform: translate(100vw, -50%);
+                opacity: 0;
+            }
+
+            .logo-container {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 0;
+                transition: all 1s ease-in-out;
+                z-index: 5;
+            }
+
+            .logo-container.visible {
+                opacity: 1;
+            }
+
+            .logo-container.top-left {
+                top: 40px;
+                left: 40px;
+                transform: translate(0, 0);
+                opacity: 1;
+                transition: all 1s ease-in-out;
+            }
+
+            .logo-container.top-left .logo {
+                width: 80px;
+                height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .logo-container.top-left .logo-image {
+                max-width: 60px;
+                max-height: 60px;
+            }
+
+            .logo {
+                width: 300px;
+                height: 300px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: all 1s ease-in-out;
+            }
+
+            .logo-image {
+                width: 80%;
+                height: auto;
+                max-width: 200px;
+                max-height: 200px;
+                object-fit: contain;
+                transition: all 1s ease-in-out;
+            }
+
+            .logo-container.top-left .logo {
+                width: 80px;
+                height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 1s ease-in-out;
+            }
+
+            .logo-container.top-left .logo-image {
+                max-width: 60px;
+                max-height: 60px;
+                transition: all 1s ease-in-out;
+            }
+
+            .company-name {
+                position: fixed;
+                top: 50%;
+                left: -200px;
+                transform: translateY(-50%);
+                transition: all 1s ease-in-out;
+                z-index: 8;
+                opacity: 0;
+            }
+
+            .company-name.visible {
+                left: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 1;
+            }
+
+            .company-name.top-left {
+                top: 40px;
+                left: 100px;
+                transform: translate(0, -25%);
+                opacity: 1;
+                transition: all 1s ease-in-out;
+            }
+
+            .company-name.top-left img {
+                width: 180px;
+                height: auto;
+                transition: all 1s ease-in-out;
+            }
+
+            .company-name.hidden {
+                left: -200px;
+                transform: translateY(-50%);
+                opacity: 0;
+            }
+
+            .company-name img {
+                width: 300px;
+                height: auto;
+                filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));
+                transition: all 1s ease-in-out;
+            }
+
+            .scroll-indicator {
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: white;
+                font-size: 1rem;
+                opacity: 0.7;
+                animation: bounce 2s infinite;
+            }
+
+            @keyframes bounce {
+                0%,
+                20%,
+                50%,
+                80%,
+                100% {
+                    transform: translateX(-50%) translateY(0);
+                }
+                40% {
+                    transform: translateX(-50%) translateY(-10px);
+                }
+                60% {
+                    transform: translateX(-50%) translateY(-5px);
+                }
+            }
+
+            /* 左侧目录样式 */
+            .sidebar {
+                position: fixed;
+                left: -300px;
+                top: 0;
+                width: 250px;
+                height: 100vh;
+                background: transparent;
+                backdrop-filter: none;
+                transition: left 0.8s ease-in-out;
+                z-index: 20;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 20px;
+                border-right: none;
+            }
+
+            .sidebar.visible {
+                left: 0;
+            }
+
+            .menu-item {
+                color: white;
+                font-size: 1.8rem;
+                padding: 15px 20px;
+                margin: 10px 0;
+                border-radius: 8px;
+                cursor: default;
+                transition: all 0.3s ease;
+                opacity: 0;
+                transform: translateX(-50px);
+                background: transparent;
+                border-left: 3px solid transparent;
+            }
+
+            .menu-item.visible {
+                opacity: 1;
+                transform: translateX(0);
+                transition: all 0.5s ease-out;
+            }
+
+            .menu-item:hover {
+                background: transparent;
+                border-left: 3px solid transparent;
+                transform: translateX(0);
+            }
+
+            /* 主要内容区域 */
+            .content-area {
+                position: absolute;
+                left: 300px;
+                right: 50px;
+                min-height: 400vh;
+                padding: 50px;
+                color: white;
+                opacity: 0;
+                transform: translateY(100px);
+                transition: all 0.8s ease-in-out;
+            }
+
+            .content-section {
+                height: 90vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .content-area.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .content-placeholder {
+                display: block;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 12px;
+                padding: 40px;
+                margin-bottom: 0;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .content-placeholder h2 {
+                font-size: 3rem;
+                margin-bottom: 20px;
+                color: #4a9eff;
+            }
+
+            .content-placeholder p {
+                margin-top: 10px;
+                font-size: 1.65rem;
+                line-height: 1.6;
+                opacity: 0.8;
+            }
+
+            .content-placeholder ul {
+                padding-left: 20px;
+            }
+
+            /* 响应式设计 */
+            @media (max-width: 768px) {
+                .slogan {
+                    font-size: 2rem;
+                    letter-spacing: 1px;
+                }
+                .logo {
+                    width: 200px;
+                    height: 200px;
+                }
+                .logo-image {
+                    max-width: 150px;
+                    max-height: 150px;
+                }
+                .company-name img {
+                    width: 220px;
+                }
+
+                .logo-container.top-left {
+                    top: 20px;
+                    left: 20px;
+                }
+
+                .logo-container.top-left .logo {
+                    width: 60px;
+                    height: 60px;
+                }
+
+                .logo-container.top-left .logo-image {
+                    max-width: 45px;
+                    max-height: 45px;
+                }
+
+                .company-name.top-left {
+                    top: 20px;
+                    left: 90px;
+                }
+
+                .company-name.top-left img {
+                    width: 140px;
+                }
+
+                .sidebar {
+                    width: 200px;
+                    left: -250px;
+                }
+
+                .content-area {
+                    left: 220px;
+                    right: 20px;
+                    padding: 30px 20px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="stars"></div>
+
+        <!-- 左侧目录 -->
+        <div class="sidebar" id="sidebar">
+            <div class="menu-item" id="menuItem1">Dardar 启程</div>
+            <div class="menu-item" id="menuItem3">星空之下</div>
+            <div class="menu-item" id="menuItem4">未来的路</div>
+            <div class="menu-item" id="menuItem5">联系我们</div>
+        </div>
+
+        <div class="container">
+            <div class="slogan" id="slogan">
+                PER SOMNIUM, AD ASTRA<br />
+                循此梦旅，终抵辰星
+            </div>
+
+            <div class="logo-container" id="logoContainer">
+                <div class="logo">
+                    <img
+                        src="resources/main logo white.png"
+                        alt="公司Logo"
+                        class="logo-image"
+                    />
+                </div>
+            </div>
+
+            <div class="company-name" id="companyName">
+                <img src="resources/logo brand name.png" alt="公司名称" />
+            </div>
+
+            <div class="scroll-indicator">
+                向下滑动查看更多 Slidedown to view more
+            </div>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <div class="content-area" id="contentArea">
+            <!-- 公司简介 -->
+            <div class="content-section" id="section1">
+                <div class="content-placeholder">
+                    <h2>公司简介</h2>
+                    <p>
+                        我们是一家专注于东南亚出行服务的公司，成立于2017年，致力于为客户提供最优质的服务。
+                    </p>
+                    <p>
+                        我们拥有一支充满激情和创造力的团队，团队成员来自不同背景，由行业专家和技术精英组成，拥有丰富的经验和专业知识，不断追求卓越和创新。
+                    </p>
+                    <p>
+                        正如口号所言，希望每个怀揣梦想的人，可以一路走到终点。
+                    </p>
+                </div>
+                <div class="content-placeholder">
+                    <h2>主要业务</h2>
+                    <p>
+                        我们在东南亚主要城市提供便捷、安全的网约车服务，包括：
+                    </p>
+                    <ul>
+                        <li>
+                            <p>标准快车：经济实惠的日常出行选择</p>
+                        </li>
+                        <li>
+                            <p>专车服务：提供更高端的出行体验</p>
+                        </li>
+                        <li>
+                            <p>拼车服务：共享出行，降低成本，减少碳排放</p>
+                        </li>
+                        <li>
+                            <p>商务车服务：为商务人士提供专业的出行解决方案</p>
+                        </li>
+                    </ul>
+                    <p>我们提供灵活的租车方案，满足不同用户的需求：</p>
+                    <ul>
+                        <li>
+                            <p>短期租车：按天或按小时计费，适合临时出行需求</p>
+                        </li>
+                        <li>
+                            <p>
+                                长期租车：按月或按年计费，适合长期商务或个人使用
+                            </p>
+                        </li>
+                        <li>
+                            <p>豪华车租赁：提供高端车型，满足特殊场合需求</p>
+                        </li>
+                    </ul>
+                    <p>服务特点：</p>
+                    <ul>
+                        <li>
+                            <p>
+                                多语言支持：提供中文、英语、泰语、越南语等多语言服务
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                多种支付方式：支持现金、信用卡、电子钱包等多种支付方式
+                            </p>
+                        </li>
+                        <li>
+                            <p>实时定位：通过GPS实时追踪车辆位置</p>
+                        </li>
+                        <li>
+                            <p>
+                                安全保障：所有司机均经过严格背景审查，车辆定期检查
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 市场环境 -->
+            <div class="content-section" id="section3">
+                <div class="content-placeholder">
+                    <h2>市场环境</h2>
+                    <p>
+                        东南亚出行市场正处于快速增长阶段，预计到2025年市场规模将达到300亿美元。随着中产阶级的崛起和城市化进程的加速，该地区对便捷、安全的出行服务需求持续增长。
+                    </p>
+                    <p>
+                        目前市场主要由Grab、Gojek等本地巨头主导，但仍存在大量未被满足的需求，特别是在二三线城市和农村地区。消费者对价格敏感度高，同时对服务质量和安全性有较高期望。
+                    </p>
+                    <p>
+                        政策环境方面，各国政府正逐步完善网约车监管框架，为行业发展创造更加规范的环境。技术创新，如AI路线规划、实时定价和移动支付的普及，也为行业发展提供了新的机遇。
+                    </p>
+                </div>
+                <div class="content-placeholder">
+                    <h2>我们的优势</h2>
+                    <ul>
+                        <li>
+                            <p>
+                                定制化服务，建立本地深度合作伙伴关系，精准匹配用户需求。
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                24/7客户服务，确保客户在任何时间都能得到及时的帮助。
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                我们采用先进的技术，为客户提供安全、便捷的服务。
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 企业战略和发展计划 -->
+            <div class="content-section" id="section4">
+                <div class="content-placeholder">
+                    <h2>企业战略和发展计划</h2>
+                    <p>
+                        我们的战略核心是成为东南亚地区最受欢迎的出行服务提供商，通过本地化运营和技术创新来实现这一目标。
+                    </p>
+                    <p>短期计划（1-2年）：</p>
+                    <ul>
+                        <li>
+                            <p>巩固现有市场地位，提升服务质量和用户体验</p>
+                        </li>
+                        <li>
+                            <p>拓展至泰国、越南、印尼等核心东南亚国家</p>
+                        </li>
+                        <li>
+                            <p>推出更多服务类型，如拼车、专车、商务车等</p>
+                        </li>
+                    </ul>
+                    <p>中长期计划（3-5年）：</p>
+                    <ul>
+                        <li>
+                            <p>完成东南亚主要国家的市场覆盖</p>
+                        </li>
+                        <li>
+                            <p>引入自动驾驶技术，提升运营效率</p>
+                        </li>
+                        <li>
+                            <p>建立完整的出行生态系统，包括租车、物流等服务</p>
+                        </li>
+                    </ul>
+                    <p>技术创新：</p>
+                    <p>
+                        我们将持续投入研发，利用AI和大数据技术优化路线规划、提高匹配效率、降低运营成本，为用户提供更加智能、便捷的出行服务。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 联系我们 -->
+            <div class="content-section" id="section5">
+                <div class="content-placeholder">
+                    <h2>联系我们</h2>
+                    <p>
+                        如果您对我们的产品和服务有任何疑问，欢迎随时联系我们。
+                    </p>
+                    <p>我们的团队将竭诚为您提供帮助和支持。</p>
+                    <ul>
+                        <li>
+                            <p>总部地址：新加坡滨海湾金融中心</p>
+                        </li>
+                        <li>
+                            <p>客服热线：+65 5784 6565</p>
+                        </li>
+                        <li>
+                            <p>电子邮件：astra_support@dardar.com</p>
+                        </li>
+                        <li>
+                            <p>官方网站：www.dardar.com.sg</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let animationTimeout;
+
+            // 创建星空粒子效果
+            function createStars() {
+                const starsContainer = document.getElementById("stars");
+                const starCount = 200;
+
+                for (let i = 0; i < starCount; i++) {
+                    const star = document.createElement("div");
+                    star.className = "star";
+
+                    // 随机大小和位置
+                    const size = Math.random() * 2 + 1;
+                    const left = Math.random() * 100;
+                    const top = Math.random() * 100;
+                    const delay = Math.random() * 3;
+
+                    star.style.width = size + "px";
+                    star.style.height = size + "px";
+                    star.style.left = left + "%";
+                    star.style.top = top + "%";
+                    star.style.animationDelay = delay + "s";
+
+                    // 随机亮度
+                    const brightness = Math.random() * 0.7 + 0.3;
+                    star.style.opacity = brightness;
+
+                    starsContainer.appendChild(star);
+                }
+
+                // 创建流星效果
+                createShootingStars();
+            }
+
+            function createShootingStars() {
+                const starsContainer = document.getElementById("stars");
+
+                setInterval(() => {
+                    if (Math.random() > 0.7) {
+                        // 30%概率创建流星
+                        const shootingStar = document.createElement("div");
+                        shootingStar.className = "shooting-star";
+
+                        shootingStar.style.left = Math.random() * 20 + "%";
+                        shootingStar.style.top = Math.random() * 20 + "%";
+                        shootingStar.style.animationDuration =
+                            Math.random() * 2 + 1 + "s";
+
+                        starsContainer.appendChild(shootingStar);
+
+                        // 移除流星元素
+                        setTimeout(() => {
+                            if (shootingStar.parentNode) {
+                                shootingStar.parentNode.removeChild(
+                                    shootingStar,
+                                );
+                            }
+                        }, 2000);
+                    }
+                }, 3000);
+            }
+
+            // 初始化星空
+            createStars();
+
+            // 目录配置
+            const menuItems = [
+                { id: "menuItem1", sectionId: "section1" },
+                { id: "menuItem3", sectionId: "section3" },
+                { id: "menuItem4", sectionId: "section4" },
+                { id: "menuItem5", sectionId: "section5" },
+            ];
+
+            window.addEventListener("scroll", function () {
+                const slogan = document.getElementById("slogan");
+                const logoContainer = document.getElementById("logoContainer");
+                const companyName = document.getElementById("companyName");
+                const stars = document.getElementById("stars");
+                const sidebar = document.getElementById("sidebar");
+                const contentArea = document.getElementById("contentArea");
+
+                // 获取滚动位置
+                const scrollY = window.scrollY;
+                const maxScroll = 500; // 第一阶段最大滚动距离
+                const secondStageScroll = 600; // 第二阶段开始位置（增加停留时间）
+
+                // 粒子向上移动效果（模拟视角下降）
+                stars.style.transform = `translateY(${scrollY * -0.2}px)`;
+
+                // 清除之前的定时器
+                if (animationTimeout) {
+                    clearTimeout(animationTimeout);
+                }
+
+                // 第一阶段：滚动超过50px时开始基础动画
+                if (scrollY > 50 && scrollY <= secondStageScroll) {
+                    slogan.classList.add("hidden");
+                    logoContainer.classList.add("visible");
+                    companyName.classList.remove("hidden");
+                    companyName.classList.add("visible");
+
+                    // 移除第二阶段样式
+                    logoContainer.classList.remove("top-left");
+                    companyName.classList.remove("top-left");
+                    sidebar.classList.remove("visible");
+                    contentArea.classList.remove("visible");
+
+                    // 隐藏目录项
+                    menuItems.forEach((item) => {
+                        const element = document.getElementById(item.id);
+                        element.classList.remove("visible");
+                    });
+                }
+                // 第二阶段：滚动超过600px时进入新布局
+                else if (scrollY > secondStageScroll) {
+                    slogan.classList.add("hidden");
+                    logoContainer.classList.add("top-left");
+                    companyName.classList.add("top-left");
+                    sidebar.classList.add("visible");
+                    contentArea.classList.add("visible");
+
+                    // 移除第一阶段样式
+                    logoContainer.classList.remove("visible");
+                    companyName.classList.remove("visible");
+
+                    // 检查每个目录项对应的内容区域是否在视口中
+                    menuItems.forEach((item, index) => {
+                        const section = document.getElementById(item.sectionId);
+                        if (section) {
+                            const sectionTop = section.offsetTop;
+
+                            // 当滚动到对应内容区域时显示目录项，使用更精确的触发点
+                            if (
+                                scrollY >=
+                                sectionTop + section.offsetHeight / 2
+                            ) {
+                                const element = document.getElementById(
+                                    item.id,
+                                );
+                                if (!element.classList.contains("visible")) {
+                                    // 立即显示当前目录项，不使用延迟
+                                    element.classList.add("visible");
+                                }
+                            } else {
+                                // 当滚动回顶部时，隐藏目录项
+                                const element = document.getElementById(
+                                    item.id,
+                                );
+                                if (element.classList.contains("visible")) {
+                                    element.classList.remove("visible");
+                                }
+                            }
+                        }
+                    });
+                }
+                // 初始状态：滚动回到顶部
+                else {
+                    slogan.classList.remove("hidden");
+                    logoContainer.classList.remove("visible", "top-left");
+                    companyName.classList.remove("visible", "top-left");
+                    companyName.classList.add("hidden");
+                    sidebar.classList.remove("visible");
+                    contentArea.classList.remove("visible");
+
+                    // 隐藏目录项
+                    menuItems.forEach((item) => {
+                        const element = document.getElementById(item.id);
+                        element.classList.remove("visible");
+                    });
+
+                    // 重置粒子位置
+                    stars.style.transform = "translateY(0)";
+                }
+            });
+
+            // 平滑滚动到指定位置
+            document
+                .querySelector(".scroll-indicator")
+                .addEventListener("click", function () {
+                    window.scrollTo({
+                        top: 200,
+                        behavior: "smooth",
+                    });
+                });
+        </script>
+    </body>
+</html>
